@@ -68,7 +68,7 @@ Want to contribute? Great!
 
 Primality is very easy to install and deploy in a Docker container.
 
-By default, the Docker will expose port 1000, so change this within the
+By default, the Docker will expose port 10000, so change this within the
 Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
 
@@ -83,10 +83,10 @@ version of Primality.
 
 Once done, run the Docker image and map the port to whatever you wish on
 your host. In this example, we simply map port 1000 of the host to
-port 1000 of the Docker (or whatever port was exposed in the Dockerfile):
+port 10000 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ```sh
-docker run -d -p 1000:1000 --restart=always --name=primality <youruser>/primality:${version}
+docker run -d -p 10000:10000 --restart=always --name=primality <youruser>/primality:${version}
 ```
 
 
@@ -94,7 +94,7 @@ Verify the deployment by navigating to your server address in
 your preferred browser.
 
 ```sh
-127.0.0.1:1000
+127.0.0.1:10000
 ```
 
 ## License
