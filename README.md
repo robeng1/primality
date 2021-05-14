@@ -89,13 +89,23 @@ Be sure to swap out `${version}` with the actual
 version of Primality.
 
 Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 1000 of the host to
+your host. In this example, we simply map port 10000 of the host to
 port 10000 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ```sh
 docker run -d -p 10000:10000 --restart=always --name=primality <youruser>/primality:${version}
 ```
 
+You can also quickly run 
+```
+docker pull robeng1/primality:latest && docker run -d -p 10000:10000 --restart=always --name=primality robeng1/primality
+```
+and starting issuing GET requests to 127.0.0.1:10000 with the input as parameter
+
+Example 
+```
+curl http://127.0.0.1:10000/55 returns {result: 53}
+```
 
 Verify the deployment by navigating to your server address in
 your preferred browser.
@@ -103,6 +113,10 @@ your preferred browser.
 ```sh
 127.0.0.1:10000
 ```
+
+
+## UI Driver
+You can also clone [this](https://github.com/robeng1/primality-ui) simple UI and run it locally to test the service.
 
 ## License
 
