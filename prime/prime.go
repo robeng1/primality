@@ -15,7 +15,7 @@ func OptimizedRepeatedDivisonPrimality(x uint64) bool {
 	}
 
 	// 2 is the only even prime number, so we immediately exit when x is even
-	if x%2 == 0 {
+	if x&1 == 0 {
 		return false
 	}
 
@@ -62,6 +62,11 @@ func FermatPrimality(n uint64) bool {
 		return true
 	}
 
+	// 2 is the only even prime number, so we immediately exit when x is even
+	if n&1 == 0 {
+		return false
+	}
+
 	// Try k times
 	for k > 0 {
 		// Pick a random number in [2..n-2]
@@ -74,7 +79,7 @@ func FermatPrimality(n uint64) bool {
 		}
 
 		// Fermat's little theorem
-		if power(a, n-1, n) != 1 {
+		if modExpGoBigIntegerExp(int64(a), int64(n-1), int64(n)) != 1 {
 			return false
 		}
 
@@ -91,10 +96,11 @@ func FermatPrimality(n uint64) bool {
 // This test is probabilistic
 // References https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test
 func MillerRabinPrimality(x uint64) bool {
+	
 	// best known tests of this type involve 3 rounds of the Miller-Rabin test
 	// for 32-bit integers and 7 rounds for 64-bit integer
 	// can be checked with benchmarking
-	k := 40
+	k := 7
 
 	// Corner cases
 	if x <= 1 || x == 4 {
@@ -103,6 +109,12 @@ func MillerRabinPrimality(x uint64) bool {
 	if x <= 3 {
 		return true
 	}
+
+	// 2 is the only even prime number, so we immediately exit when x is even
+	if x&1 == 0 {
+		return false
+	}
+
 	// Find r such that n = 2^d * r + 1 for some r >= 1
 	d := x - 1
 	for d%2 == 0 {
@@ -111,7 +123,7 @@ func MillerRabinPrimality(x uint64) bool {
 
 	// Iterate given nber of 'k' times
 	for i := 0; i < k; i++ {
-		if !millerTest(d, x) {
+		if !millerTest(int64(d), int64(x)) {
 			return false
 		}
 
@@ -125,7 +137,7 @@ func FindPrimeToLeft(x uint64) uint64 {
 	// since the prime number we're looking for has to be lower than
 	// the input number we start checking from x-1
 	for i := x - 1; i > 1; i-- {
-		if OptimizedRepeatedDivisonPrimality(i) {
+		if MillerRabinPrimality(i) {
 			return i
 		}
 	}
