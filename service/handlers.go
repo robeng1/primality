@@ -4,6 +4,7 @@ package service
 
 import (
 	"errors"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -53,11 +54,18 @@ func handlePrimeToLeft(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+func handleHealthCheck(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+
+	_, _ = io.WriteString(w, `{"alive": true}`)
+}
 
 func HandleRequest() {
 	router := mux.NewRouter().StrictSlash(true)
 	// this takes the input number
 	router.HandleFunc("/{num}", handlePrimeToLeft)
+	router.HandleFunc("/", handleHealthCheck)
 
 	// the port number is hard code to make it simple
 	// for a more complex up, it could be provided through env variables
