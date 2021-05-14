@@ -70,7 +70,7 @@ Primality is very easy to install and deploy in a Docker container.
 
 By default, the Docker will expose port 10000, so change this within the
 Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
+build the image. You can also pull the image from [here](https://github.com/robeng1/primality-test)
 
 ```sh
 cd primality
